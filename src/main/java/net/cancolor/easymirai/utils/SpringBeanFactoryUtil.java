@@ -1,10 +1,14 @@
-package net.keyisese.easymirai.utils;
+package net.cancolor.easymirai.utils;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
+/*
+ * @author Soar
+ * @date 2021-12-10
+ */
 @Component
 public class SpringBeanFactoryUtil implements ApplicationContextAware {
     public static ApplicationContext context;

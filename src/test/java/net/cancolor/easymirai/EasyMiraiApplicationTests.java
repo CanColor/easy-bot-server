@@ -1,4 +1,4 @@
-package net.keyisese.easymirai;
+package net.cancolor.easymirai;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
