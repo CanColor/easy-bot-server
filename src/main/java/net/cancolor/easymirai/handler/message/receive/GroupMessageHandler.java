@@ -39,7 +39,6 @@ public class GroupMessageHandler {
             miraiMessage.setFriend(FriendWrap.wrap(member)).setBot(BotWrap.wrap(member));
             miraiMessage.setMiraiCode(event.getMessage().serializeToMiraiCode()).setLevel(event.getPermission().getLevel()).setGroup(GroupWrap.wrap(member));
             logger.info("监听群消息: {}", miraiMessage);
-            Iterator<Map.Entry<Integer, Channel>> it = onlineChannelMap.entrySet().iterator();
             OnlineChannelContainer.sendAllChannel("group",1,miraiMessage);
         } else {
             //2自己 0是匿名

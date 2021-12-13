@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+/.mvn/
+/${project.build.directory}/
+/.mvn/
+/.mvn/
+/.mvn/wrapper/

@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>net.cancolor</groupId>
-    <artifactId>easy-mirai</artifactId>
+    <artifactId>easy-mirai-server</artifactId>
     <version>0.0.1</version>
-    <name>easy-mirai</name>
-    <description>easy-mirai project for Spring Boot</description>
+    <name>easy-mirai-server</name>
+    <description>easy-mirai-server project for Spring Boot</description>
 
     <properties>
         <java.version>1.8</java.version>

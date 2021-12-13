@@ -50,7 +50,7 @@ public class OnlineChannelContainer {
      * @param channel
      */
     public void addChannel(Integer clientId, Channel channel) {
-        logger.info("客户端: " + clientId + " 已连接," + channel);
+        logger.info("客户端: " + clientId + " 已上线！" + channel);
         CHANNEL_MAP.put(clientId, channel);
     }
 
@@ -61,7 +61,7 @@ public class OnlineChannelContainer {
      * @param channel
      */
     public void delChannel(Integer clientId, Channel channel) {
-        logger.info("客户端: " + clientId + " 已断开链接");
+        logger.info("客户端: " + clientId + " 已下线！");
         CHANNEL_MAP.remove(clientId);
     }
 

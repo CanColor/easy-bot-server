@@ -2,6 +2,7 @@ package net.cancolor.easymirai.utils;
 
 
 
+import net.cancolor.easymiraiapi.constent.AtConstant;
 import net.cancolor.easymiraiapi.model.message.AtMessage;
 import net.cancolor.easymiraiapi.model.message.FaceMessage;
 import net.cancolor.easymiraiapi.model.message.VipFaceMessage;
@@ -40,10 +41,10 @@ public class SendTencentMessageUtils {
             SendServerFileMessageDTO sendFileMessage = message.getSendFileMessage();
             //at
             if (atMessage != null) {
-                if (atMessage.getType().equalsIgnoreCase("At")) {
+                if (atMessage.getType().equalsIgnoreCase(AtConstant.AT)) {
                     messageChainBuilder.append(new At(sendServerMessage.getFriendId()));
                 }
-                if (atMessage.getType().equalsIgnoreCase("AtAll")) {
+                if (atMessage.getType().equalsIgnoreCase(AtConstant.AT_ALL)) {
                     messageChainBuilder.append(AtAll.INSTANCE);
                 }
             }

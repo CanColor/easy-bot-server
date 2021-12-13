@@ -54,9 +54,9 @@ public class SendClientMessageUtil {
             @Override
             public void operationComplete(ChannelFuture channelFuture) throws Exception {
                 if (channelFuture.isSuccess()) {
-                    System.out.println("发送客户端消息成功，发送的消息是：" + JSONObject.toJSONString(sendClientMessageDTO));
+                    logger.info("发送客户端消息成功：" + JSONObject.toJSONString(sendClientMessageDTO));
                 } else {
-                    System.out.println("发送客户端消息发送失败 " + channelFuture.cause().getMessage());
+                    logger.info("发送客户端消息失败 " + channelFuture.cause().getMessage());
                 }
 
             }

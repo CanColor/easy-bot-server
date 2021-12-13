@@ -55,7 +55,6 @@ public class WebSocketServerHandle extends ChannelInboundHandlerAdapter {
                     clientId = sendServerMessageDTO.getClientId();
                     isUseMiraiCode = sendServerMessageDTO.getIsUseMiraiCode();
                     botIdList = sendServerMessageDTO.getBotIdList();
-                    isPrivate = sendServerMessageDTO.getIsPrivate();
                     friendId = sendServerMessageDTO.getFriendId();
                     groupId = sendServerMessageDTO.getGroupId();
                 }
@@ -64,19 +63,20 @@ public class WebSocketServerHandle extends ChannelInboundHandlerAdapter {
                 return;
             }
 
-
             //系统指令
             if (comond.equals(MessageConstant.LOGIN)) {
                 //登陆
                 ctx.channel().attr(uid).set(clientId.intValue());
                 ChannelContainer.newInstance().delChannel(ctx.channel(), clientId);
                 OnlineChannelContainer.newInstance().addChannel(clientId, ctx.channel());
-                logger.info("客户端--->clentId:{} , clientName: {} ,已连接", clientId, clientName);
+                logger.info("客户端--->clentId:{} , clientName: {} ,登录！", clientId, clientName);
                 SendClientMessageDTO clientMessageDTO = new SendClientMessageDTO();
                 clientMessageDTO.setSystemMessage("clientId: " + clientId + ",clientName: " + clientName + ",已上线");
                 clientMessageDTO.setComond("system");
                 ctx.channel().writeAndFlush(JSONObject.toJSONString(clientMessageDTO));
-            } else if (comond.equals(MessageConstant.LOGIN_OUT)) {
+            }
+
+            if (comond.equals(MessageConstant.LOGIN_OUT)) {
                 //用户主动下线
                 logger.info("客户端--->clentId:{} , clientName: {} ,已主动端开链接", clientId, clientName);
                 ctx.channel().write("下线成功！");
@@ -93,7 +93,7 @@ public class WebSocketServerHandle extends ChannelInboundHandlerAdapter {
                         if (entry.getKey().longValue() == botId.longValue()) {
                             Bot bot = BotContainer.newInstance().getBotContainer().get(botId);
                             //私聊
-                            if (isPrivate == 1) {
+                            if (groupId == null) {
                                 //获取好友
                                 Friend friend = BotContainer.getFriend(botId, friendId);
                                 if (isUseMiraiCode == 1) {
@@ -122,20 +122,19 @@ public class WebSocketServerHandle extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("用户连接");
         ChannelContainer.newInstance().addChannel(ctx.channel(), null);
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("用户断开");
+
         ChannelContainer.newInstance().delChannel(ctx.channel(), null);
         Iterator<Map.Entry<Integer, Channel>> it = OnlineChannelContainer.newInstance().getChannelMap().entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<Integer, Channel> entry = it.next();
-            //发给除自己以外的所有人
             if (entry.getValue().id().equals(ctx.channel().id())) {
                 OnlineChannelContainer.newInstance().delChannel(entry.getKey(), entry.getValue());
+                logger.info("客户端断开:{}, channel:{}", entry.getKey(), entry.getValue());
             }
         }
     }
