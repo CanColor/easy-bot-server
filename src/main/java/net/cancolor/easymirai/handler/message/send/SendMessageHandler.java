@@ -3,12 +3,15 @@ package net.cancolor.easymirai.handler.message.send;
 
 
 
+import io.netty.channel.Channel;
+import net.cancolor.easymirai.utils.SendClientMessageUtil;
 import net.cancolor.easymirai.utils.SendTencentMessageUtils;
 import net.cancolor.easymiraiapi.model.message.dto.SendServerMessageDTO;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Contact;
 import net.mamoe.mirai.contact.Friend;
 import net.mamoe.mirai.contact.Group;
+import net.mamoe.mirai.contact.NormalMember;
 import net.mamoe.mirai.message.code.MiraiCode;
 import net.mamoe.mirai.message.data.MessageChain;
 import org.slf4j.Logger;
@@ -28,36 +31,52 @@ public class SendMessageHandler implements Serializable {
 
     static Logger logger = LoggerFactory.getLogger(SendMessageHandler.class);
 
-    public static void sendGroupMessage(Bot bot, Group group, SendServerMessageDTO sendServerMessage) {
-        MessageChain messageChain = SendTencentMessageUtils.wrapGroupMessage(group, sendServerMessage);
-        sendMessage(group, messageChain);
-        logger.info("bot:{},group:{},friend:{},发送消息:", bot, group, messageChain.serializeToMiraiCode());
+    public static void sendGroupMessage(Channel channel, Bot bot, Group group, NormalMember normalMember, SendServerMessageDTO sendServerMessage) {
+        MessageChain messageChain = null;
+        try {
+            messageChain = SendTencentMessageUtils.wrapGroupMessage(group, sendServerMessage);
+            logger.info("客户端 channel:{},bot:{},group:{},normalMember:{},发送消息:", channel, bot, group, normalMember, messageChain.serializeToMiraiCode());
+        } catch (Exception e) {
+            SendClientMessageUtil.sendClient(channel, e.getLocalizedMessage());
+            return;
+        }
+        if (sendServerMessage.getSendServerMessageList().get(0).getContactsMessage() == null) {
+            sendMessage(channel, group, messageChain);
+            logger.info("客户端 channel:{},bot:{},group:{},normalMember:{},发送消息:", channel, bot, group, normalMember, messageChain.serializeToMiraiCode());
+        }
     }
 
 
-    public static void sendFriendMessage(Bot bot, Friend friend, SendServerMessageDTO sendServerMessage) {
+    public static void sendFriendMessage(Channel channel, Bot bot, Friend friend, SendServerMessageDTO sendServerMessage) {
         MessageChain messageChain = SendTencentMessageUtils.wrapFriendMessage(friend, sendServerMessage);
-        sendMessage(friend, messageChain);
-        logger.info("bot:{},friend:{},发送消息:{}", bot, friend, messageChain.serializeToMiraiCode());
+        if (sendServerMessage.getSendServerMessageList().get(0).getContactsMessage() == null) {
+            sendMessage(channel, friend, messageChain);
+            return;
+        }
+        logger.info("客户端 channel:{},bot:{},friend:{},发送消息:{}", channel, bot, friend, messageChain.serializeToMiraiCode());
     }
 
 
-    public static void sendGroupMessage(Bot bot, Group group, String miraiCode) {
+    public static void sendGroupMessage(Channel channel, Bot bot, Group group, NormalMember normalMember, String miraiCode) {
         MessageChain messageChain = MiraiCode.deserializeMiraiCode(miraiCode);
-        sendMessage(group, messageChain);
-        logger.info("bot:{},group:{},发送消息:{}", bot, group, messageChain.serializeToMiraiCode());
+        sendMessage(channel, group, messageChain);
+        logger.info("客户端 channel:{},bot:{},group:{},normalMember:{},发送消息:{}", channel, bot, group, normalMember, messageChain.serializeToMiraiCode());
     }
 
 
-    public static void sendFriendMessage(Bot bot, Friend friend, String miraiCode) {
+    public static void sendFriendMessage(Channel channel, Bot bot, Friend friend, String miraiCode) {
         MessageChain messageChain = MiraiCode.deserializeMiraiCode(miraiCode);
-        sendMessage(friend, messageChain);
-        logger.info("bot:{},friend:{},发送消息:{}", bot, friend, messageChain.serializeToMiraiCode());
+        sendMessage(channel, friend, messageChain);
+        logger.info("客户端 channel:{},bot:{},friend:{},发送消息:{}", channel, bot, friend, messageChain.serializeToMiraiCode());
     }
 
 
-    public static void sendMessage(Contact contact, MessageChain messageChain) {
-        contact.sendMessage(messageChain);
+    public static void sendMessage(Channel channel, Contact contact, MessageChain messageChain) {
+        if (messageChain != null && messageChain.size() > 0) {
+            contact.sendMessage(messageChain);
+        } else {
+            SendClientMessageUtil.sendClient(channel, "请勿传递不支持的消息！");
+        }
     }
 
 

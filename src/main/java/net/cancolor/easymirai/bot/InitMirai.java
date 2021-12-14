@@ -35,8 +35,8 @@ public class InitMirai {
             setHeartbeatStrategy(BotConfiguration.HeartbeatStrategy.REGISTER);
             setCacheDir(new File(configuration.getCacheDir()));// 最终为 workingDir 目录中的 cache 目录
             fileBasedDeviceInfo(configuration.getBasedDeviceInfo());
-            ContactListCache contactListCache = getContactListCache();
-            contactListCache.setSaveIntervalMillis(contactListCache.getSaveIntervalMillis());// 可选设置有更新时的保存时间间隔, 默认 60 秒
+//            ContactListCache contactListCache = getContactListCache();
+//            contactListCache.setSaveIntervalMillis(contactListCache.getSaveIntervalMillis());// 可选设置有更新时的保存时间间隔, 默认 60 秒
             //开启缓存
             enableContactCache();
 

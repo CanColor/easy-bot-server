@@ -18,6 +18,7 @@ import net.cancolor.easymiraiapi.model.message.dto.SendServerMessageDTO;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Friend;
 import net.mamoe.mirai.contact.Group;
+import net.mamoe.mirai.contact.NormalMember;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,9 +29,9 @@ import java.util.Map;
 public class WebSocketServerHandle extends ChannelInboundHandlerAdapter {
 
     Logger logger = LoggerFactory.getLogger(WebSocketServerHandle.class);
-    private AttributeKey<Integer> uid = AttributeKey.valueOf("username");
-    private Map<Channel, Integer> channelMap = ChannelContainer.newInstance().getChannelMap();
-    private Map<Long, Bot> botContainer = BotContainer.newInstance().getBotContainer();
+    private final AttributeKey<Integer> uid = AttributeKey.valueOf("username");
+    private final Map<Channel, Integer> channelMap = ChannelContainer.newInstance().getChannelMap();
+    private final Map<Long, Bot> botContainer = BotContainer.newInstance().getBotContainer();
 
     //接受客户端消息
     @Override
@@ -92,24 +93,26 @@ public class WebSocketServerHandle extends ChannelInboundHandlerAdapter {
                     for (Long botId : botIdList) {
                         if (entry.getKey().longValue() == botId.longValue()) {
                             Bot bot = BotContainer.newInstance().getBotContainer().get(botId);
+                            Friend friend = null;
                             //私聊
                             if (groupId == null) {
+                                friend = BotContainer.getFriend(botId, friendId);
                                 //获取好友
-                                Friend friend = BotContainer.getFriend(botId, friendId);
                                 if (isUseMiraiCode == 1) {
-                                    String miraiCode = (String) sendServerMessageDTO.getMiraiCode();
-                                    SendMessageHandler.sendFriendMessage(bot, friend, miraiCode);
+                                    String miraiCode = sendServerMessageDTO.getMiraiCode();
+                                    SendMessageHandler.sendFriendMessage(ctx.channel(), bot, friend, miraiCode);
                                 } else {
-                                    SendMessageHandler.sendFriendMessage(bot, friend, sendServerMessageDTO);
+                                    SendMessageHandler.sendFriendMessage(ctx.channel(), bot, friend, sendServerMessageDTO);
                                 }
                             } else {
                                 Group group = BotContainer.getGroup(botId, groupId);
+                                NormalMember normalMember = group.get(friendId);
                                 //群聊获取群列表
                                 if (isUseMiraiCode == 1) {
                                     String miraiCode = sendServerMessageDTO.getMiraiCode();
-                                    SendMessageHandler.sendGroupMessage(bot, group, miraiCode);
+                                    SendMessageHandler.sendGroupMessage(ctx.channel(), bot, group, normalMember, miraiCode);
                                 } else {
-                                    SendMessageHandler.sendGroupMessage(bot, group, sendServerMessageDTO);
+                                    SendMessageHandler.sendGroupMessage(ctx.channel(), bot, group, normalMember, sendServerMessageDTO);
                                 }
                             }
                         }

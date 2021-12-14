@@ -3,7 +3,6 @@ package net.cancolor.easymirai.configuration;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
 /**
  * @author Soar
@@ -26,6 +25,6 @@ public class MyConfiguration {
     @Value("${basedDeviceInfo}")
     private String basedDeviceInfo;
     //缓存保存时间
-    @Value("${saveIntervalMillis}")
+    @Value("${saveIntervalMillis:60}")
     private Integer saveIntervalMillis;
 }

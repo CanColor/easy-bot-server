@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Configuration;
 public class InitConfiguration {
 
 
-    @Value("${netty.port}")
-    public int nettyPort;
+    @Value("${webSocket.port}")
+    public int webSocketPort;
 
 
 }
