@@ -4,12 +4,9 @@ package net.cancolor.easymirai.wrap;
 import net.cancolor.easymiraiapi.model.message.*;
 import net.mamoe.mirai.event.events.FriendMessageEvent;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
-
 import net.mamoe.mirai.internal.message.FileMessageImpl;
 import net.mamoe.mirai.internal.message.OnlineFriendImage;
 import net.mamoe.mirai.internal.message.OnlineGroupImageImpl;
-
-
 import net.mamoe.mirai.message.data.At;
 import net.mamoe.mirai.message.data.AtAll;
 import net.mamoe.mirai.message.data.MessageChain;
@@ -139,11 +136,9 @@ public class MessageWrap {
         //手机戳一戳傍边那个
         else if (obj instanceof net.mamoe.mirai.message.data.VipFace) {
             net.mamoe.mirai.message.data.VipFace orignVipFace = (net.mamoe.mirai.message.data.VipFace) obj;
-            net.mamoe.mirai.message.data.VipFace.Kind kind = orignVipFace.getKind();
             VipFaceMessage vipFaceMessage = new VipFaceMessage();
-            vipFaceMessage.setName(kind.getName());
+            vipFaceMessage.setKind(orignVipFace.getKind());
             vipFaceMessage.setCount(orignVipFace.getCount());
-            vipFaceMessage.setId(kind.getId());
             message.setVipFaceMessage(vipFaceMessage);
         }
 

@@ -94,7 +94,7 @@ public class SendTencentMessageUtils {
         return messageChainBuilder.build();
     }
 
-    public static MessageChain wrapFriendMessage(Friend friend,SendServerMessageDTO sendServerMessage) {
+    public static MessageChain wrapFriendMessage(Friend friend, SendServerMessageDTO sendServerMessage) {
         MessageChainBuilder messageChainBuilder = new MessageChainBuilder();
         List<SendServerMessage> sendServerMessageList = sendServerMessage.getSendServerMessageList();
         for (SendServerMessage message : sendServerMessageList) {
@@ -102,8 +102,7 @@ public class SendTencentMessageUtils {
             VipFaceMessage vipFaceMessage = message.getVipFaceMessage();
             //vip表情-戳一戳升级版
             if (vipFaceMessage != null) {
-                net.mamoe.mirai.message.data.VipFace.Kind kind = new VipFace.Kind(vipFaceMessage.getId(), vipFaceMessage.getName());
-                VipFace vipFace = new VipFace(kind, vipFaceMessage.getCount());
+                VipFace vipFace = new VipFace(vipFaceMessage.getKind(), 1);
                 messageChainBuilder.append(vipFace);
             }
             if (contactsMessage != null) {
@@ -123,7 +122,7 @@ public class SendTencentMessageUtils {
     public static MessageChain wrapMessage(Contact contact, MessageChainBuilder messageChainBuilder, SendServerMessage message) {
         String content = message.getMessage();
         net.cancolor.easymiraiapi.model.message.PokeMessage pokeMessage = message.getPokeMessage();
-        List<SendServerImageMessageDTO> sendImageMessageList = message.getSendImageMessageList();
+        SendServerImageMessageDTO imageMessage = message.getImageMessage();
         List<FaceMessage> faceMessageList = message.getFaceMessageList();
         net.cancolor.easymiraiapi.model.message.SimpleServiceMessage simpleServiceMessage = message.getSimpleServiceMessage();
         //白文
@@ -135,16 +134,14 @@ public class SendTencentMessageUtils {
             messageChainBuilder.append(new PokeMessage(pokeMessage.getName(), pokeMessage.getPokeType(), pokeMessage.getId()));
         }
         //图片
-        if (sendImageMessageList != null) {
+        if (imageMessage != null) {
             Image image = null;
-            for (SendServerImageMessageDTO sendImageMessage : sendImageMessageList) {
-                if (sendImageMessage.getImageId() != null) {
-                    messageChainBuilder.append(Image.fromId(sendImageMessage.getImageId()));
-                } else if (sendImageMessage.getPath() != null) {
-                    image = uploadImage(contact, "path", sendImageMessage.getPath());
-                } else {
-                    image = uploadImage(contact, "url", sendImageMessage.getOriginUrl());
-                }
+            if (imageMessage.getImageId() != null) {
+                messageChainBuilder.append(Image.fromId(imageMessage.getImageId()));
+            } else if (imageMessage.getPath() != null) {
+                image = uploadImage(contact, "path", imageMessage.getPath());
+            } else {
+                image = uploadImage(contact, "url", imageMessage.getOriginUrl());
             }
             messageChainBuilder.append(image);
         }
