@@ -35,14 +35,14 @@ public class SendMessageHandler implements Serializable {
         MessageChain messageChain = null;
         try {
             messageChain = SendTencentMessageUtils.wrapGroupMessage(group, sendServerMessage);
-            logger.info("客户端 channel:{},bot:{},group:{},normalMember:{},发送消息:", channel, bot, group, normalMember, messageChain.serializeToMiraiCode());
+            logger.info("客户端 发送消息:channel:{},bot:{},group:{},normalMember:{}", channel, bot, group, normalMember, messageChain.serializeToMiraiCode());
         } catch (Exception e) {
             SendClientMessageUtil.sendClient(channel, e.getLocalizedMessage());
             return;
         }
         if (sendServerMessage.getSendServerMessageList().size() > 0 && sendServerMessage.getSendServerMessageList().get(0).getContactsMessage() == null) {
             sendMessage(channel, group, messageChain);
-            logger.info("客户端 channel:{},bot:{},group:{},normalMember:{},发送消息:", channel, bot, group, normalMember, messageChain.serializeToMiraiCode());
+            logger.info("客户端 发送消息:channel:{},bot:{},group:{},normalMember:{},miraiCode:{}", channel, bot, group, normalMember, messageChain.toString());
         }
     }
 
@@ -57,7 +57,7 @@ public class SendMessageHandler implements Serializable {
         }
         if (sendServerMessage.getSendServerMessageList().size() > 0 && sendServerMessage.getSendServerMessageList().get(0).getContactsMessage() == null) {
             sendMessage(channel, friend, messageChain);
-            logger.info("客户端 channel:{},bot:{},friend:{},发送消息:{}", channel, bot, friend, messageChain.serializeToMiraiCode());
+            logger.info("客户端 发送消息: channel:{},bot:{},friend:{},miraiCode:{}", channel, bot, friend, messageChain.toString());
         }
     }
 
@@ -65,14 +65,14 @@ public class SendMessageHandler implements Serializable {
     public static void sendGroupMessage(Channel channel, Bot bot, Group group, NormalMember normalMember, String miraiCode) {
         MessageChain messageChain = MiraiCode.deserializeMiraiCode(miraiCode);
         sendMessage(channel, group, messageChain);
-        logger.info("客户端 channel:{},bot:{},group:{},normalMember:{},发送消息:{}", channel, bot, group, normalMember, messageChain.serializeToMiraiCode());
+        logger.info("客户端 发送消息:channel:{},bot:{},group:{},normalMember:{},miraiCode:{}", channel, bot, group, normalMember, messageChain.toString());
     }
 
 
     public static void sendFriendMessage(Channel channel, Bot bot, Friend friend, String miraiCode) {
         MessageChain messageChain = MiraiCode.deserializeMiraiCode(miraiCode);
         sendMessage(channel, friend, messageChain);
-        logger.info("客户端 channel:{},bot:{},friend:{},发送消息:{}", channel, bot, friend, messageChain.serializeToMiraiCode());
+        logger.info("客户端 发送消息: channel:{},bot:{},friend:{},miraiCode:{}", channel, bot, friend, messageChain.toString());
     }
 
 

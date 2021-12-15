@@ -5,7 +5,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
-import net.cancolor.easymiraiapi.constent.MessageConstant;
+import net.cancolor.easymiraiapi.constant.MessageConstant;
 import net.cancolor.easymiraiapi.model.message.client.receive.ClientMessage;
 import net.cancolor.easymiraiapi.model.message.dto.SendClientMessageDTO;
 import org.slf4j.Logger;

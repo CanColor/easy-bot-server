@@ -1,6 +1,5 @@
 package net.cancolor.easymirai.handler.message.receive;
 
-import net.cancolor.easymirai.server.ChannelContainer;
 import net.cancolor.easymirai.server.OnlineChannelContainer;
 import net.cancolor.easymirai.wrap.BotWrap;
 import net.cancolor.easymirai.wrap.FriendWrap;
@@ -28,8 +27,8 @@ public class FriendMessageHandler {
         //成员信息
         Friend member = event.getSender();
         if(isUseMiraiCode){
-            MiraiMessage miraiMessageDTO=new MiraiMessage();
-            String miraiCode=event.getMessage().serializeToMiraiCode();
+            MiraiMessage miraiMessageDTO = new MiraiMessage();
+            String miraiCode = event.getMessage().toString();
             miraiMessageDTO.setMiraiCode(miraiCode).setFriend(FriendWrap.wrap(member)).setBot(BotWrap.wrap(member));
             logger.info("监听私聊消息: {}",miraiMessageDTO);
             OnlineChannelContainer.sendAllChannel("friend",1,miraiMessageDTO);

@@ -1,10 +1,12 @@
 package net.cancolor.easymirai.utils;
 
 
-import net.cancolor.easymiraiapi.constent.AtConstant;
-import net.cancolor.easymiraiapi.constent.ContactsConstant;
+import net.cancolor.easymiraiapi.constant.AtConstant;
+import net.cancolor.easymiraiapi.constant.ContactsConstant;
+import net.cancolor.easymiraiapi.constant.OrginTypeConsant;
 import net.cancolor.easymiraiapi.model.message.*;
 import net.cancolor.easymiraiapi.model.message.client.send.SendServerMessage;
+import net.cancolor.easymiraiapi.model.message.dto.AudioMessageDTO;
 import net.cancolor.easymiraiapi.model.message.dto.SendServerFileMessageDTO;
 import net.cancolor.easymiraiapi.model.message.dto.SendServerImageMessageDTO;
 import net.cancolor.easymiraiapi.model.message.dto.SendServerMessageDTO;
@@ -38,6 +40,8 @@ public class SendTencentMessageUtils {
             AtMessage atMessage = message.getAtMessage();
             ContactsMessage contactsMessage = message.getContactsMessage();
             SendServerFileMessageDTO sendFileMessage = message.getSendFileMessage();
+            AudioMessageDTO audioMessage = message.getAudioMessage();
+
             //at
             if (atMessage != null) {
                 if (atMessage.getType().equalsIgnoreCase(AtConstant.AT)) {
@@ -86,7 +90,10 @@ public class SendTencentMessageUtils {
                     group.getFiles().uploadNewFile(sendFileMessage.getFileName(), res); // 2.8+
                 }
             }
-
+            if (audioMessage != null) {
+                Audio audio = uploadAudio(group, null, audioMessage.getUploadType(), audioMessage.getResource());
+                messageChainBuilder.append(audio);
+            }
             wrapMessage(group, messageChainBuilder, message);
         }
         return messageChainBuilder.build();
@@ -97,6 +104,7 @@ public class SendTencentMessageUtils {
         List<SendServerMessage> sendServerMessageList = sendServerMessage.getSendServerMessageList();
         for (SendServerMessage message : sendServerMessageList) {
             ContactsMessage contactsMessage = message.getContactsMessage();
+            AudioMessageDTO audioMessage = message.getAudioMessage();
             VipFaceMessage vipFaceMessage = message.getVipFaceMessage();
             //vip表情-戳一戳升级版
             if (vipFaceMessage != null) {
@@ -111,6 +119,9 @@ public class SendTencentMessageUtils {
                     nudge.sendTo(friend);
                 }
             }
+            if (audioMessage != null) {
+                uploadAudio(null, friend, audioMessage.getUploadType(), audioMessage.getResource());
+            }
             wrapMessage(friend, messageChainBuilder, message);
         }
         return messageChainBuilder.build();
@@ -124,6 +135,7 @@ public class SendTencentMessageUtils {
         SendServerImageMessageDTO flashImageMessage = message.getFlashImageMessage();
         List<FaceMessage> faceMessageList = message.getFaceMessageList();
         MusicShareMessage musicShare = message.getMusicShare();
+        UrlMessage urlMessage = message.getUrlMessage();
         net.cancolor.easymiraiapi.model.message.SimpleServiceMessage simpleServiceMessage = message.getSimpleServiceMessage();
         //白文
         if (content != null) {
@@ -167,6 +179,9 @@ public class SendTencentMessageUtils {
         if (simpleServiceMessage != null) {
             messageChainBuilder.append(new net.mamoe.mirai.message.data.SimpleServiceMessage(simpleServiceMessage.getServiceId(), simpleServiceMessage.getContent()));
         }
+        if (urlMessage != null) {
+            messageChainBuilder.append(RichMessage.share(urlMessage.getUrl(), urlMessage.getTitle(), urlMessage.getTitle(), urlMessage.getCoverUrl()));
+        }
         if (musicShare != null) {
             messageChainBuilder.append(new MusicShare(musicShare.getPlayer(), musicShare.getTitile(), musicShare.getSummary(), musicShare.getJumpUrl(), musicShare.getPictureUrl(), musicShare.getMusicUrl()));
         }
@@ -201,5 +216,39 @@ public class SendTencentMessageUtils {
             }
         }
         return image;
+    }
+
+    public static Audio uploadAudio(Group group, Friend friend, String uploadType, String audioAdress) throws Exception {
+        Audio audio = null;
+        ExternalResource res = null;
+        try {
+            if (OrginTypeConsant.FILE_PATH.equals(uploadType)) {
+                res = ExternalResource.create(new File(audioAdress));
+            } else {
+                InputStream inputStream = OkHttpUtils.builder().url(audioAdress)
+                        .get()
+                        .addHeader("Content-Type", "application/json; charset=utf-8")
+                        .inputStream();
+                try {
+                    res = ExternalResource.create(inputStream);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (group != null) {
+                group.uploadAudio(res);
+            } else {
+                friend.uploadAudio(res);
+            }
+        } catch (Exception e) {
+            throw new Exception("图片发送失败,请检查图片地址是否有效！");
+        } finally {
+            try {
+                res.close(); // 记得关闭资源
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return audio;
     }
 }

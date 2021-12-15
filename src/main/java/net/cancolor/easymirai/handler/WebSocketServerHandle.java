@@ -12,7 +12,7 @@ import net.cancolor.easymirai.handler.message.send.SendMessageHandler;
 import net.cancolor.easymirai.server.ChannelContainer;
 import net.cancolor.easymirai.server.OnlineChannelContainer;
 import net.cancolor.easymirai.utils.SendClientMessageUtil;
-import net.cancolor.easymiraiapi.constent.MessageConstant;
+import net.cancolor.easymiraiapi.constant.MessageConstant;
 import net.cancolor.easymiraiapi.model.message.dto.SendClientMessageDTO;
 import net.cancolor.easymiraiapi.model.message.dto.SendServerMessageDTO;
 import net.mamoe.mirai.Bot;

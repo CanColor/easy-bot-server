@@ -1,12 +1,11 @@
 package net.cancolor.easymirai.handler.message.receive;
 
-import net.cancolor.easymirai.server.ChannelContainer;
+import io.netty.channel.Channel;
 import net.cancolor.easymirai.server.OnlineChannelContainer;
 import net.cancolor.easymirai.wrap.BotWrap;
 import net.cancolor.easymirai.wrap.FriendWrap;
 import net.cancolor.easymirai.wrap.GroupWrap;
 import net.cancolor.easymirai.wrap.MessageWrap;
-import io.netty.channel.Channel;
 import net.cancolor.easymiraiapi.model.message.client.receive.GroupMessage;
 import net.cancolor.easymiraiapi.model.message.client.receive.MiraiMessage;
 import net.mamoe.mirai.contact.Member;
@@ -15,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.Iterator;
 import java.util.Map;
 
 /*
@@ -28,7 +26,7 @@ public class GroupMessageHandler {
     final static boolean isUseMiraiCode = true;
 
     Logger logger = LoggerFactory.getLogger(GroupMessageHandler.class);
-    private Map<Integer, Channel> onlineChannelMap = OnlineChannelContainer.newInstance().getChannelMap();
+    private final Map<Integer, Channel> onlineChannelMap = OnlineChannelContainer.newInstance().getChannelMap();
 
     //接受消息
     public void receiveMessages(GroupMessageEvent event) {
@@ -37,7 +35,7 @@ public class GroupMessageHandler {
         if (isUseMiraiCode) {
             MiraiMessage miraiMessage = new MiraiMessage();
             miraiMessage.setFriend(FriendWrap.wrap(member)).setBot(BotWrap.wrap(member));
-            miraiMessage.setMiraiCode(event.getMessage().serializeToMiraiCode()).setLevel(event.getPermission().getLevel()).setGroup(GroupWrap.wrap(member));
+            miraiMessage.setMiraiCode(event.getMessage().toString()).setLevel(event.getPermission().getLevel()).setGroup(GroupWrap.wrap(member));
             logger.info("监听群消息: {}", miraiMessage);
             OnlineChannelContainer.sendAllChannel("group",1,miraiMessage);
         } else {
