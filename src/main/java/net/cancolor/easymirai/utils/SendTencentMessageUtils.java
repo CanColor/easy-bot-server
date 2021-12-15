@@ -180,7 +180,7 @@ public class SendTencentMessageUtils {
             messageChainBuilder.append(new net.mamoe.mirai.message.data.SimpleServiceMessage(simpleServiceMessage.getServiceId(), simpleServiceMessage.getContent()));
         }
         if (urlMessage != null) {
-            messageChainBuilder.append(RichMessage.share(urlMessage.getUrl(), urlMessage.getTitle(), urlMessage.getTitle(), urlMessage.getCoverUrl()));
+            messageChainBuilder.append(RichMessage.share(urlMessage.getUrl(), urlMessage.getTitle(), urlMessage.getContent(), urlMessage.getCoverUrl()));
         }
         if (musicShare != null) {
             messageChainBuilder.append(new MusicShare(musicShare.getPlayer(), musicShare.getTitile(), musicShare.getSummary(), musicShare.getJumpUrl(), musicShare.getPictureUrl(), musicShare.getMusicUrl()));
