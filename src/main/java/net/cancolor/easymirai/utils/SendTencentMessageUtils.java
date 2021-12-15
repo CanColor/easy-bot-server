@@ -94,7 +94,7 @@ public class SendTencentMessageUtils {
         return messageChainBuilder.build();
     }
 
-    public static MessageChain wrapFriendMessage(Friend friend, SendServerMessageDTO sendServerMessage) {
+    public static MessageChain wrapFriendMessage(Friend friend, SendServerMessageDTO sendServerMessage) throws Exception {
         MessageChainBuilder messageChainBuilder = new MessageChainBuilder();
         List<SendServerMessage> sendServerMessageList = sendServerMessage.getSendServerMessageList();
         for (SendServerMessage message : sendServerMessageList) {
@@ -119,10 +119,11 @@ public class SendTencentMessageUtils {
     }
 
 
-    public static MessageChain wrapMessage(Contact contact, MessageChainBuilder messageChainBuilder, SendServerMessage message) {
+    public static MessageChain wrapMessage(Contact contact, MessageChainBuilder messageChainBuilder, SendServerMessage message) throws Exception {
         String content = message.getMessage();
         net.cancolor.easymiraiapi.model.message.PokeMessage pokeMessage = message.getPokeMessage();
         SendServerImageMessageDTO imageMessage = message.getImageMessage();
+        SendServerImageMessageDTO flashImageMessage = message.getFlashImageMessage();
         List<FaceMessage> faceMessageList = message.getFaceMessageList();
         net.cancolor.easymiraiapi.model.message.SimpleServiceMessage simpleServiceMessage = message.getSimpleServiceMessage();
         //白文
@@ -137,13 +138,24 @@ public class SendTencentMessageUtils {
         if (imageMessage != null) {
             Image image = null;
             if (imageMessage.getImageId() != null) {
-                messageChainBuilder.append(Image.fromId(imageMessage.getImageId()));
+                image = Image.fromId(imageMessage.getImageId());
             } else if (imageMessage.getPath() != null) {
                 image = uploadImage(contact, "path", imageMessage.getPath());
             } else {
                 image = uploadImage(contact, "url", imageMessage.getOriginUrl());
             }
             messageChainBuilder.append(image);
+        }
+        if (flashImageMessage != null) {
+            Image image = null;
+            if (flashImageMessage.getImageId() != null) {
+                image = Image.fromId(flashImageMessage.getImageId());
+            } else if (flashImageMessage.getPath() != null) {
+                image = uploadImage(contact, "path", flashImageMessage.getPath());
+            } else {
+                image = uploadImage(contact, "url", flashImageMessage.getOriginUrl());
+            }
+            messageChainBuilder.append(new FlashImage(image));
         }
         //表情
         if (faceMessageList != null) {
@@ -159,7 +171,7 @@ public class SendTencentMessageUtils {
         return messageChainBuilder.build();
     }
 
-    public static Image uploadImage(Contact contact, String uploadType, String imageAdress) {
+    public static Image uploadImage(Contact contact, String uploadType, String imageAdress) throws Exception {
         Image image = null;
         ExternalResource res = null;
         try {
@@ -169,7 +181,6 @@ public class SendTencentMessageUtils {
                 InputStream inputStream = OkHttpUtils.builder().url(imageAdress)
                         .get()
                         .addHeader("Content-Type", "application/json; charset=utf-8")
-                        .get()
                         .inputStream();
                 try {
                     res = ExternalResource.create(inputStream);
@@ -178,6 +189,8 @@ public class SendTencentMessageUtils {
                 }
             }
             image = contact.uploadImage(res);
+        } catch (Exception e) {
+            throw new Exception("图片发送失败,请检查图片地址是否有效！");
         } finally {
             try {
                 res.close(); // 记得关闭资源
