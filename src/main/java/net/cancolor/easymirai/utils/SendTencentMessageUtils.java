@@ -3,10 +3,7 @@ package net.cancolor.easymirai.utils;
 
 import net.cancolor.easymiraiapi.constent.AtConstant;
 import net.cancolor.easymiraiapi.constent.ContactsConstant;
-import net.cancolor.easymiraiapi.model.message.AtMessage;
-import net.cancolor.easymiraiapi.model.message.ContactsMessage;
-import net.cancolor.easymiraiapi.model.message.FaceMessage;
-import net.cancolor.easymiraiapi.model.message.VipFaceMessage;
+import net.cancolor.easymiraiapi.model.message.*;
 import net.cancolor.easymiraiapi.model.message.client.send.SendServerMessage;
 import net.cancolor.easymiraiapi.model.message.dto.SendServerFileMessageDTO;
 import net.cancolor.easymiraiapi.model.message.dto.SendServerImageMessageDTO;
@@ -14,6 +11,7 @@ import net.cancolor.easymiraiapi.model.message.dto.SendServerMessageDTO;
 import net.cancolor.easymiraiapi.okhttp3.OkHttpUtils;
 import net.mamoe.mirai.contact.*;
 import net.mamoe.mirai.message.action.Nudge;
+import net.mamoe.mirai.message.data.PokeMessage;
 import net.mamoe.mirai.message.data.*;
 import net.mamoe.mirai.utils.ExternalResource;
 
@@ -125,6 +123,7 @@ public class SendTencentMessageUtils {
         SendServerImageMessageDTO imageMessage = message.getImageMessage();
         SendServerImageMessageDTO flashImageMessage = message.getFlashImageMessage();
         List<FaceMessage> faceMessageList = message.getFaceMessageList();
+        MusicShareMessage musicShare = message.getMusicShare();
         net.cancolor.easymiraiapi.model.message.SimpleServiceMessage simpleServiceMessage = message.getSimpleServiceMessage();
         //白文
         if (content != null) {
@@ -167,6 +166,9 @@ public class SendTencentMessageUtils {
         //外链
         if (simpleServiceMessage != null) {
             messageChainBuilder.append(new net.mamoe.mirai.message.data.SimpleServiceMessage(simpleServiceMessage.getServiceId(), simpleServiceMessage.getContent()));
+        }
+        if (musicShare != null) {
+            messageChainBuilder.append(new MusicShare(musicShare.getPlayer(), musicShare.getTitile(), musicShare.getSummary(), musicShare.getJumpUrl(), musicShare.getPictureUrl(), musicShare.getMusicUrl()));
         }
         return messageChainBuilder.build();
     }
