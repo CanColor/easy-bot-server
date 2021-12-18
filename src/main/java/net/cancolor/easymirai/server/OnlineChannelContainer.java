@@ -2,7 +2,7 @@ package net.cancolor.easymirai.server;
 
 import io.netty.channel.Channel;
 import net.cancolor.easymirai.utils.SendClientMessageUtil;
-import net.cancolor.easymiraiapi.model.message.client.receive.ClientMessage;
+import net.cancolor.easymiraiapi.model.message.dto.SendClientMessageDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,12 +30,12 @@ public class OnlineChannelContainer {
         return instance;
     }
 
-    public static void sendAllChannel(String type, Integer isUseMiraiCode, ClientMessage message) {
+    public static void sendAllChannel(String type, Integer isUseMiraiCode, SendClientMessageDTO sendClientMessageDTO) {
         Iterator<Map.Entry<Integer, Channel>> it = CHANNEL_MAP.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<Integer, Channel> entry = it.next();
             //发给除自己以外的所有人
-            SendClientMessageUtil.sendClient(entry.getValue(), type, isUseMiraiCode, message);
+            SendClientMessageUtil.sendClient(entry.getValue(), type, isUseMiraiCode, sendClientMessageDTO);
         }
     }
 

@@ -4,11 +4,10 @@ package net.cancolor.easymirai.utils;
 import net.cancolor.easymiraiapi.constant.AtConstant;
 import net.cancolor.easymiraiapi.constant.ContactsConstant;
 import net.cancolor.easymiraiapi.constant.OrginTypeConsant;
+import net.cancolor.easymiraiapi.model.message.FileMessage;
+import net.cancolor.easymiraiapi.model.message.Message;
 import net.cancolor.easymiraiapi.model.message.*;
-import net.cancolor.easymiraiapi.model.message.client.send.SendServerMessage;
 import net.cancolor.easymiraiapi.model.message.dto.AudioMessageDTO;
-import net.cancolor.easymiraiapi.model.message.dto.SendServerFileMessageDTO;
-import net.cancolor.easymiraiapi.model.message.dto.SendServerImageMessageDTO;
 import net.cancolor.easymiraiapi.model.message.dto.SendServerMessageDTO;
 import net.cancolor.easymiraiapi.okhttp3.OkHttpUtils;
 import net.mamoe.mirai.contact.*;
@@ -34,12 +33,13 @@ public class SendTencentMessageUtils {
 
     //封装发送信息
     public static MessageChain wrapGroupMessage(Group group, SendServerMessageDTO sendServerMessageDTO) throws Exception {
-        List<SendServerMessage> sendServerMessageList = sendServerMessageDTO.getSendServerMessageList();
+        List<Message> messageList = sendServerMessageDTO.getMessageList();
+
         MessageChainBuilder messageChainBuilder = new MessageChainBuilder();
-        for (SendServerMessage message : sendServerMessageList) {
+        for (Message message : messageList) {
             AtMessage atMessage = message.getAtMessage();
             ContactsMessage contactsMessage = message.getContactsMessage();
-            SendServerFileMessageDTO sendFileMessage = message.getSendFileMessage();
+            FileMessage sendFileMessage = message.getFileMessage();
             AudioMessageDTO audioMessage = message.getAudioMessage();
 
             //at
@@ -99,10 +99,10 @@ public class SendTencentMessageUtils {
         return messageChainBuilder.build();
     }
 
-    public static MessageChain wrapFriendMessage(Friend friend, SendServerMessageDTO sendServerMessage) throws Exception {
+    public static MessageChain wrapFriendMessage(Friend friend, SendServerMessageDTO sendServerMessageDTO) throws Exception {
         MessageChainBuilder messageChainBuilder = new MessageChainBuilder();
-        List<SendServerMessage> sendServerMessageList = sendServerMessage.getSendServerMessageList();
-        for (SendServerMessage message : sendServerMessageList) {
+        List<Message> sendServerMessageList = sendServerMessageDTO.getMessageList();
+        for (Message message : sendServerMessageList) {
             ContactsMessage contactsMessage = message.getContactsMessage();
             AudioMessageDTO audioMessage = message.getAudioMessage();
             VipFaceMessage vipFaceMessage = message.getVipFaceMessage();
@@ -128,11 +128,11 @@ public class SendTencentMessageUtils {
     }
 
 
-    public static MessageChain wrapMessage(Contact contact, MessageChainBuilder messageChainBuilder, SendServerMessage message) throws Exception {
+    public static MessageChain wrapMessage(Contact contact, MessageChainBuilder messageChainBuilder, Message message) throws Exception {
         String content = message.getMessage();
         net.cancolor.easymiraiapi.model.message.PokeMessage pokeMessage = message.getPokeMessage();
-        SendServerImageMessageDTO imageMessage = message.getImageMessage();
-        SendServerImageMessageDTO flashImageMessage = message.getFlashImageMessage();
+        ImageMessage imageMessage = message.getImageMessage();
+        ImageMessage flashImageMessage = message.getFlashImageMessage();
         List<FaceMessage> faceMessageList = message.getFaceMessageList();
         MusicShareMessage musicShare = message.getMusicShare();
         UrlMessage urlMessage = message.getUrlMessage();
@@ -150,8 +150,8 @@ public class SendTencentMessageUtils {
             Image image = null;
             if (imageMessage.getImageId() != null) {
                 image = Image.fromId(imageMessage.getImageId());
-            } else if (imageMessage.getPath() != null) {
-                image = uploadImage(contact, "path", imageMessage.getPath());
+            } else if (imageMessage.getFilePath() != null) {
+                image = uploadImage(contact, "path", imageMessage.getFilePath());
             } else {
                 image = uploadImage(contact, "url", imageMessage.getOriginUrl());
             }
@@ -161,8 +161,8 @@ public class SendTencentMessageUtils {
             Image image = null;
             if (flashImageMessage.getImageId() != null) {
                 image = Image.fromId(flashImageMessage.getImageId());
-            } else if (flashImageMessage.getPath() != null) {
-                image = uploadImage(contact, "path", flashImageMessage.getPath());
+            } else if (flashImageMessage.getFilePath() != null) {
+                image = uploadImage(contact, "path", flashImageMessage.getFilePath());
             } else {
                 image = uploadImage(contact, "url", flashImageMessage.getOriginUrl());
             }
@@ -185,6 +185,7 @@ public class SendTencentMessageUtils {
         if (musicShare != null) {
             messageChainBuilder.append(new MusicShare(musicShare.getPlayer(), musicShare.getTitile(), musicShare.getSummary(), musicShare.getJumpUrl(), musicShare.getPictureUrl(), musicShare.getMusicUrl()));
         }
+
         return messageChainBuilder.build();
     }
 

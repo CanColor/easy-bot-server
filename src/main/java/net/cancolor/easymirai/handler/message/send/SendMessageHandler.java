@@ -40,7 +40,7 @@ public class SendMessageHandler implements Serializable {
             SendClientMessageUtil.sendClient(channel, e.getLocalizedMessage());
             return;
         }
-        if (sendServerMessage.getSendServerMessageList().size() > 0 && sendServerMessage.getSendServerMessageList().get(0).getContactsMessage() == null) {
+        if (sendServerMessage.getMessageList().size() > 0 && sendServerMessage.getMessageList().get(0).getContactsMessage() == null) {
             sendMessage(channel, group, messageChain);
             logger.info("客户端 发送消息:channel:{},bot:{},group:{},normalMember:{},miraiCode:{}", channel, bot, group, normalMember, messageChain.toString());
         }
@@ -55,7 +55,7 @@ public class SendMessageHandler implements Serializable {
             SendClientMessageUtil.sendClient(channel, e.getLocalizedMessage());
             return;
         }
-        if (sendServerMessage.getSendServerMessageList().size() > 0 && sendServerMessage.getSendServerMessageList().get(0).getContactsMessage() == null) {
+        if (sendServerMessage.getMessageList().size() > 0 && sendServerMessage.getMessageList().get(0).getContactsMessage() == null) {
             sendMessage(channel, friend, messageChain);
             logger.info("客户端 发送消息: channel:{},bot:{},friend:{},miraiCode:{}", channel, bot, friend, messageChain.toString());
         }

@@ -53,7 +53,7 @@ public class WebServer {
                             //netty是基于分段请求的，HttpObjectAggregator的作用是将请求分段再聚合,参数是聚合字节的最大长度
                             pipeline.addLast("aggregator",new HttpObjectAggregator(1024*1024*1024));
                             //这个是websocket的handler，是netty提供的，也可以自定义，建议就用默认的
-                            pipeline.addLast(new WebSocketServerProtocolHandler("/hello",null,true,65535));
+                            pipeline.addLast(new WebSocketServerProtocolHandler("/bot",null,true,65535));
                             //自定义的handler，处理服务端传来的消息
                             pipeline.addLast(new WebSocketServerHandle());
                         }

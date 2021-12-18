@@ -1,13 +1,14 @@
 package net.cancolor.easymirai.handler.message.receive;
 
 import net.cancolor.easymirai.server.OnlineChannelContainer;
-import net.cancolor.easymirai.wrap.BotWrap;
-import net.cancolor.easymirai.wrap.FriendWrap;
-import net.cancolor.easymirai.wrap.MessageWrap;
-import net.cancolor.easymiraiapi.model.message.client.receive.FriendMessage;
-import net.cancolor.easymiraiapi.model.message.client.receive.MiraiMessage;
+import net.cancolor.easymiraiapi.wrap.BotWrap;
+import net.cancolor.easymiraiapi.wrap.FriendWrap;
+import net.cancolor.easymiraiapi.wrap.MessageWrap;
+import net.cancolor.easymiraiapi.constant.MessageConstant;
+import net.cancolor.easymiraiapi.model.message.dto.SendClientMessageDTO;
 import net.mamoe.mirai.contact.Friend;
 import net.mamoe.mirai.event.events.FriendMessageEvent;
+import net.mamoe.mirai.message.data.MessageChain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -19,29 +20,28 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class FriendMessageHandler {
-    final  static boolean isUseMiraiCode=true;
+    static Integer isUseMiraiCode = 1;
     Logger logger = LoggerFactory.getLogger(FriendMessageHandler.class);
 
     //接受消息
     public void receiveMessages(FriendMessageEvent event) {
         //成员信息
         Friend member = event.getSender();
-        if(isUseMiraiCode){
-            MiraiMessage miraiMessageDTO = new MiraiMessage();
-            String miraiCode = event.getMessage().toString();
-            miraiMessageDTO.setMiraiCode(miraiCode).setFriend(FriendWrap.wrap(member)).setBot(BotWrap.wrap(member));
-            logger.info("监听私聊消息: {}",miraiMessageDTO);
-            OnlineChannelContainer.sendAllChannel("friend",1,miraiMessageDTO);
-        }else{
-            FriendMessage friendMessageDTO = new FriendMessage();
-            friendMessageDTO.setMessage(MessageWrap.wrap(event)).setBot(BotWrap.wrap(member)).setFriend(FriendWrap.wrap(member));
-            logger.info("监听私聊消息: {}",friendMessageDTO);
-            OnlineChannelContainer.sendAllChannel("friend",0,friendMessageDTO);
+        SendClientMessageDTO sendClientMessageDTO = new SendClientMessageDTO();
+        sendClientMessageDTO.setFriend(FriendWrap.wrap(member)).setBot(BotWrap.wrap(member));
+        if (isUseMiraiCode==1) {
+            MessageChain chain = event.getMessage();
+            String miraiCode = chain.serializeToMiraiCode().trim().equals("") ? chain.toString() : chain.serializeToMiraiCode();
+            sendClientMessageDTO.setMiraiCode(miraiCode);
+            logger.info("监听私聊消息: {}", sendClientMessageDTO);
+        } else {
+            isUseMiraiCode=0;
+            sendClientMessageDTO.setMessageList(MessageWrap.wrap(event.getMessage()));
+            logger.info("监听私聊消息: {}", sendClientMessageDTO);
         }
+        OnlineChannelContainer.sendAllChannel(MessageConstant.CHAT, isUseMiraiCode, sendClientMessageDTO);
 
     }
-
-
 
 
 }
