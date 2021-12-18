@@ -1,14 +1,13 @@
-package net.cancolor.easymirai.handler.message.receive;
+package net.cancolor.easybot.handler.message.receive;
 
 import io.netty.channel.Channel;
-import net.cancolor.easymirai.server.OnlineChannelContainer;
-import net.cancolor.easymiraiapi.wrap.BotWrap;
-import net.cancolor.easymiraiapi.wrap.FriendWrap;
-import net.cancolor.easymiraiapi.wrap.GroupWrap;
-import net.cancolor.easymiraiapi.wrap.MessageWrap;
-import net.cancolor.easymiraiapi.constant.MessageConstant;
-import net.cancolor.easymiraiapi.model.message.Message;
-import net.cancolor.easymiraiapi.model.message.dto.SendClientMessageDTO;
+import net.cancolor.easybot.server.OnlineChannelContainer;
+import net.cancolor.easybotapi.wrap.BotWrap;
+import net.cancolor.easybotapi.wrap.FriendWrap;
+import net.cancolor.easybotapi.wrap.GroupWrap;
+import net.cancolor.easybotapi.wrap.MessageWrap;
+import net.cancolor.easybotapi.constant.MessageConstant;
+import net.cancolor.easybotapi.model.message.dto.SendClientMessageDTO;
 import net.mamoe.mirai.contact.Member;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.MessageChain;
@@ -16,8 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /*

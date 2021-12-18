@@ -1,13 +1,13 @@
-package net.cancolor.easymirai.utils;
+package net.cancolor.easybot.utils;
 
 import com.alibaba.fastjson.JSONObject;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
-import net.cancolor.easymiraiapi.constant.MessageConstant;
+import net.cancolor.easybotapi.constant.MessageConstant;
 
-import net.cancolor.easymiraiapi.model.message.dto.SendClientMessageDTO;
+import net.cancolor.easybotapi.model.message.dto.SendClientMessageDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

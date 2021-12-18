@@ -1,4 +1,4 @@
-package net.cancolor.easymirai.configuration;
+package net.cancolor.easybot.configuration;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;

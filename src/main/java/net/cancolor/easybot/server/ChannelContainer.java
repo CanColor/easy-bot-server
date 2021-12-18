@@ -1,4 +1,4 @@
-package net.cancolor.easymirai.server;
+package net.cancolor.easybot.server;
 
 import io.netty.channel.Channel;
 import org.slf4j.Logger;

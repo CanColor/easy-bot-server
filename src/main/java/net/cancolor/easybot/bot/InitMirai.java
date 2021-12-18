@@ -1,7 +1,7 @@
-package net.cancolor.easymirai.bot;
+package net.cancolor.easybot.bot;
 
 
-import net.cancolor.easymirai.configuration.MyConfiguration;
+import net.cancolor.easybot.configuration.MyConfiguration;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
 import net.mamoe.mirai.utils.BotConfiguration;

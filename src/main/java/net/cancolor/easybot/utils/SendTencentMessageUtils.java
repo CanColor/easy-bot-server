@@ -1,15 +1,15 @@
-package net.cancolor.easymirai.utils;
+package net.cancolor.easybot.utils;
 
 
-import net.cancolor.easymiraiapi.constant.AtConstant;
-import net.cancolor.easymiraiapi.constant.ContactsConstant;
-import net.cancolor.easymiraiapi.constant.OrginTypeConsant;
-import net.cancolor.easymiraiapi.model.message.FileMessage;
-import net.cancolor.easymiraiapi.model.message.Message;
-import net.cancolor.easymiraiapi.model.message.*;
-import net.cancolor.easymiraiapi.model.message.dto.AudioMessageDTO;
-import net.cancolor.easymiraiapi.model.message.dto.SendServerMessageDTO;
-import net.cancolor.easymiraiapi.okhttp3.OkHttpUtils;
+import net.cancolor.easybotapi.constant.AtConstant;
+import net.cancolor.easybotapi.constant.ContactsConstant;
+import net.cancolor.easybotapi.constant.OrginTypeConsant;
+import net.cancolor.easybotapi.model.message.FileMessage;
+import net.cancolor.easybotapi.model.message.Message;
+import net.cancolor.easybotapi.model.message.*;
+import net.cancolor.easybotapi.model.message.dto.AudioMessageDTO;
+import net.cancolor.easybotapi.model.message.dto.SendServerMessageDTO;
+import net.cancolor.easybotapi.okhttp3.OkHttpUtils;
 import net.mamoe.mirai.contact.*;
 import net.mamoe.mirai.message.action.Nudge;
 import net.mamoe.mirai.message.data.PokeMessage;
@@ -130,13 +130,13 @@ public class SendTencentMessageUtils {
 
     public static MessageChain wrapMessage(Contact contact, MessageChainBuilder messageChainBuilder, Message message) throws Exception {
         String content = message.getMessage();
-        net.cancolor.easymiraiapi.model.message.PokeMessage pokeMessage = message.getPokeMessage();
+        net.cancolor.easybotapi.model.message.PokeMessage pokeMessage = message.getPokeMessage();
         ImageMessage imageMessage = message.getImageMessage();
         ImageMessage flashImageMessage = message.getFlashImageMessage();
         List<FaceMessage> faceMessageList = message.getFaceMessageList();
         MusicShareMessage musicShare = message.getMusicShare();
         UrlMessage urlMessage = message.getUrlMessage();
-        net.cancolor.easymiraiapi.model.message.SimpleServiceMessage simpleServiceMessage = message.getSimpleServiceMessage();
+        net.cancolor.easybotapi.model.message.SimpleServiceMessage simpleServiceMessage = message.getSimpleServiceMessage();
         //白文
         if (content != null) {
             messageChainBuilder.append(content);

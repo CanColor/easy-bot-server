@@ -1,4 +1,4 @@
-package net.cancolor.easymirai.handler;
+package net.cancolor.easybot.handler;
 
 
 import com.alibaba.fastjson.JSONObject;
@@ -7,14 +7,14 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.AttributeKey;
-import net.cancolor.easymirai.bot.BotContainer;
-import net.cancolor.easymirai.handler.message.send.SendMessageHandler;
-import net.cancolor.easymirai.server.ChannelContainer;
-import net.cancolor.easymirai.server.OnlineChannelContainer;
-import net.cancolor.easymirai.utils.SendClientMessageUtil;
-import net.cancolor.easymiraiapi.constant.MessageConstant;
-import net.cancolor.easymiraiapi.model.message.dto.SendClientMessageDTO;
-import net.cancolor.easymiraiapi.model.message.dto.SendServerMessageDTO;
+import net.cancolor.easybot.bot.BotContainer;
+import net.cancolor.easybot.handler.message.send.SendMessageHandler;
+import net.cancolor.easybot.server.ChannelContainer;
+import net.cancolor.easybot.server.OnlineChannelContainer;
+import net.cancolor.easybot.utils.SendClientMessageUtil;
+import net.cancolor.easybotapi.constant.MessageConstant;
+import net.cancolor.easybotapi.model.message.dto.SendClientMessageDTO;
+import net.cancolor.easybotapi.model.message.dto.SendServerMessageDTO;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Friend;
 import net.mamoe.mirai.contact.Group;

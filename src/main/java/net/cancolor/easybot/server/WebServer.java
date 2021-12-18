@@ -1,4 +1,4 @@
-package net.cancolor.easymirai.server;
+package net.cancolor.easybot.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -11,8 +11,8 @@ import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
-import net.cancolor.easymirai.config.InitConfiguration;
-import net.cancolor.easymirai.handler.WebSocketServerHandle;
+import net.cancolor.easybot.config.InitConfiguration;
+import net.cancolor.easybot.handler.WebSocketServerHandle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

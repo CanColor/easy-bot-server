@@ -1,4 +1,4 @@
-package net.cancolor.easymirai.utils;
+package net.cancolor.easybot.utils;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

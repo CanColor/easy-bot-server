@@ -1,12 +1,12 @@
-package net.cancolor.easymirai.handler.message.send;
+package net.cancolor.easybot.handler.message.send;
 
 
 
 
 import io.netty.channel.Channel;
-import net.cancolor.easymirai.utils.SendClientMessageUtil;
-import net.cancolor.easymirai.utils.SendTencentMessageUtils;
-import net.cancolor.easymiraiapi.model.message.dto.SendServerMessageDTO;
+import net.cancolor.easybot.utils.SendClientMessageUtil;
+import net.cancolor.easybot.utils.SendTencentMessageUtils;
+import net.cancolor.easybotapi.model.message.dto.SendServerMessageDTO;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Contact;
 import net.mamoe.mirai.contact.Friend;

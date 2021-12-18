@@ -1,7 +1,7 @@
-package net.cancolor.easymirai;
+package net.cancolor.easybot;
 
-import net.cancolor.easymirai.bot.BotThread;
-import net.cancolor.easymirai.server.WebServer;
+import net.cancolor.easybot.bot.BotThread;
+import net.cancolor.easybot.server.WebServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

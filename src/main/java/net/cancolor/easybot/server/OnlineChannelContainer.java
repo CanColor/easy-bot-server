@@ -1,8 +1,8 @@
-package net.cancolor.easymirai.server;
+package net.cancolor.easybot.server;
 
 import io.netty.channel.Channel;
-import net.cancolor.easymirai.utils.SendClientMessageUtil;
-import net.cancolor.easymiraiapi.model.message.dto.SendClientMessageDTO;
+import net.cancolor.easybot.utils.SendClientMessageUtil;
+import net.cancolor.easybotapi.model.message.dto.SendClientMessageDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

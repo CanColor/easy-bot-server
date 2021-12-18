@@ -1,7 +1,7 @@
-package net.cancolor.easymirai.bot;
+package net.cancolor.easybot.bot;
 
 
-import net.cancolor.easymirai.server.ChannelContainer;
+import net.cancolor.easybot.server.ChannelContainer;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.ContactList;
 import net.mamoe.mirai.contact.Friend;

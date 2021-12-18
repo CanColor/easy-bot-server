@@ -1,9 +1,9 @@
-package net.cancolor.easymirai.bot;
+package net.cancolor.easybot.bot;
 
-import net.cancolor.easymirai.handler.message.receive.FriendMessageHandler;
-import net.cancolor.easymirai.handler.message.receive.NudgeMessageHandler;
-import net.cancolor.easymirai.handler.message.receive.GroupMessageHandler;
-import net.cancolor.easymirai.utils.SpringBeanFactoryUtil;
+import net.cancolor.easybot.handler.message.receive.FriendMessageHandler;
+import net.cancolor.easybot.handler.message.receive.NudgeMessageHandler;
+import net.cancolor.easybot.handler.message.receive.GroupMessageHandler;
+import net.cancolor.easybot.utils.SpringBeanFactoryUtil;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.event.GlobalEventChannel;
 import net.mamoe.mirai.event.Listener;

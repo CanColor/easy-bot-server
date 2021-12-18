@@ -1,13 +1,13 @@
-package net.cancolor.easymirai.handler.message.receive;
+package net.cancolor.easybot.handler.message.receive;
 
-import net.cancolor.easymirai.server.OnlineChannelContainer;
-import net.cancolor.easymiraiapi.wrap.BotWrap;
-import net.cancolor.easymiraiapi.wrap.FriendWrap;
-import net.cancolor.easymiraiapi.wrap.GroupWrap;
-import net.cancolor.easymiraiapi.constant.MessageConstant;
-import net.cancolor.easymiraiapi.model.message.Message;
-import net.cancolor.easymiraiapi.model.message.NudgeMessage;
-import net.cancolor.easymiraiapi.model.message.dto.SendClientMessageDTO;
+import net.cancolor.easybot.server.OnlineChannelContainer;
+import net.cancolor.easybotapi.wrap.BotWrap;
+import net.cancolor.easybotapi.wrap.FriendWrap;
+import net.cancolor.easybotapi.wrap.GroupWrap;
+import net.cancolor.easybotapi.constant.MessageConstant;
+import net.cancolor.easybotapi.model.message.Message;
+import net.cancolor.easybotapi.model.message.NudgeMessage;
+import net.cancolor.easybotapi.model.message.dto.SendClientMessageDTO;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.UserOrBot;
 import net.mamoe.mirai.event.events.NudgeEvent;
