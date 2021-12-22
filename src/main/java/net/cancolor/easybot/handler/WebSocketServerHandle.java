@@ -106,7 +106,10 @@ public class WebSocketServerHandle extends ChannelInboundHandlerAdapter {
                                 }
                             } else {
                                 Group group = BotContainer.getGroup(botId, groupId);
-                                NormalMember normalMember = group.get(friendId);
+                                NormalMember normalMember = null;
+                                if (friendId != null) {
+                                    normalMember = group.get(friendId);
+                                }
                                 //群聊获取群列表
                                 if (isUseMiraiCode == 1) {
                                     String miraiCode = sendServerMessageDTO.getMiraiCode();

@@ -1,8 +1,8 @@
 package net.cancolor.easybot.utils;
 
 
-import net.cancolor.easybotapi.constant.AtConstant;
 import net.cancolor.easybotapi.constant.ContactsConstant;
+import net.cancolor.easybotapi.constant.MessageTypeConstant;
 import net.cancolor.easybotapi.constant.OrginTypeConsant;
 import net.cancolor.easybotapi.model.message.FileMessage;
 import net.cancolor.easybotapi.model.message.Message;
@@ -44,10 +44,10 @@ public class SendTencentMessageUtils {
 
             //at
             if (atMessage != null) {
-                if (atMessage.getType().equalsIgnoreCase(AtConstant.AT)) {
+                if (atMessage.getType().equalsIgnoreCase(MessageTypeConstant.AT)) {
                     messageChainBuilder.append(new At(sendServerMessageDTO.getFriendId()));
                 }
-                if (atMessage.getType().equalsIgnoreCase(AtConstant.AT_ALL)) {
+                if (atMessage.getType().equalsIgnoreCase(MessageTypeConstant.AT_ALL)) {
                     messageChainBuilder.append(AtAll.INSTANCE);
                 }
             }

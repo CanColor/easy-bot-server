@@ -12,12 +12,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2021-12-10 15:35
  */
 @SpringBootApplication
-public class EasyMiraiApplication implements CommandLineRunner {
+public class EasyBotApplication implements CommandLineRunner {
 
     @Autowired
     private WebServer webServer;
+
     public static void main(String[] args) {
-        SpringApplication.run(EasyMiraiApplication.class, args);
+        SpringApplication.run(EasyBotApplication.class, args);
     }
 
 
